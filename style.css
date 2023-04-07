@@ -1,0 +1,24 @@
+* {
+    border: 1px solid grey;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+html, body { 
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    width: 100vw;
+    height: 100vh;
+}
+
+canvas {
+    background-color: white;
+    border-radius: 20px;
+}

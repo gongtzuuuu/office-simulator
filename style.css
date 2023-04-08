@@ -18,6 +18,24 @@ body {
     height: 100vh;
 }
 
+#start {
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+}
+
+#startBtn {
+    background-color: #eee;
+    bottom: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 canvas {
     background-color: white;
     border-radius: 20px;

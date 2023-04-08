@@ -1,137 +1,101 @@
+let currentGame;
+let currentPlayer;
+//let firstBox = {x: 100, y: 100, width: 50, 50};
+
+const startPage = document.getElementById("start");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
+canvas.style.display = 'none';
 
 let canvasWidth = window.innerWidth * 0.8;
 let canvasHeight = window.innerHeight * 0.8;
 
-let startPositionX = canvasWidth - 100;
-let startPositionY = canvasHeight / 2 - 25;
-
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
 
-let player = context.fillRect(50, startPositionY, 50, 50);
+document.getElementById('startBtn').onclick = () => startGame();
 
-class Box {
-    constructor(xpos, ypos, width, height, speed) {
-        this.xpos = xpos;
-        this.ypos = ypos;
-        this.width = width;
-        this.height = height;
-        this.speed = speed;
-
-        this.dx = 1 *  this.speed;
-    }
-
-    drawBox(context){
-        context.fillRect(this.xpos, this.ypos, this.width, this.height, this.speed);
-    }
-
-    updatePosition() {
-        context.clearRect(0, 0, canvasWidth, canvasHeight)
-        this.drawBox(context);
-        this.xpos -= this.dx;
-    }
+document.onkeydown = (event) => {
+  let whereToGo = event.keyCode;
+  currentGame.player.movePlayer(whereToGo);
 }
 
-let randomY = Math.floor(Math.random() * canvasHeight);
-
-let myBox = new Box(startPositionX, randomY, 50, 50, 2);
-myBox.drawBox(context);
-
-let updateBox = () => {
-    requestAnimationFrame(updateBox); // Update 60 times per seconds
-    myBox.updatePosition();
+document.onkeypress = (event) => {
+  let whereToGo = event.keyCode;
+  currentGame.player.movePlayer(whereToGo);
 }
 
-updateBox();
 
+/* ---- 1. Initiate a game ---- */
+function startGame() {
+  startPage.style.display = 'none';
+  canvas.style.display = 'flex';
 
-/* let boxes = [];
-boxes.push({x:0, y:0, width: 200, height: 50, color: "yellow"});
-boxes.push({x:0, y:0, width: 100, height: 10, color: "green"});
-
-let drawBox = (context) => {
-    context.clearRect(0, 0, canvasWidth, canvasHeight)
-    boxes.forEach((box) => {
-        context.beginPath();
-        context.fillStyle = shape.color;
-        context.fillRect(shape.x, shape.y, shape.width, shape.height)
-        context.closePath();
-    })
+  // Instantiate a new game of the game class
+  currentGame = new Game;
+  // Instantiate a new player
+  currentPlayer = new Player;
+  currentGame.player = currentPlayer;
+  currentGame.player.drawPlayer();
+  // Update canvas
+  updateCanvas(); 
 }
 
-drawBox(context); */
+
+/* ---- 2. No collision happens ---- */
+// function detectNoCollision(box) {
+//   return (box.x - currentPlayer.x > 50 && currentPlayer.y - box.y > 50) ||
+//   (box.x - currentPlayer.x > 50 && box.y - currentPlayer.y > 50)
+
+//   /* return !((currentPlayer.x > box.x + box.width) || 
+//   (currentPlayer.y + currentPlayer.height < box.y) || 
+//   (currentPlayer.y - currentPlayer.height  > box.y + box.height)) */
+// }
+
+
+/* ---- 3. Update the canvas ---- */
+let boxesFrequency = 0;
+function updateCanvas() {
+
+  context.clearRect(0, 0, canvasWidth, canvasHeight);
+  currentGame.player.drawPlayer();
+  
+  boxesFrequency ++;
+  if (boxesFrequency % 200 === 1) {
+    //Draw an box
+    let randomBoxX = canvasWidth - 100;
+    let randomBoxY = Math.floor(Math.random() * canvasHeight) - 50;
+    let boxWidth = 50;
+    let boxHeight = 50;
     
-
-/* class Box {
-    constructor(xpos, ypos, width, height, color, text, speed) {
-      this.xpos = xpos;
-      this.ypos = ypos;
-      this.width = width;
-      this.height = height;
-      this.color = color;
-      // Add some texts in the boxes
-      this.text = text;
-      // Change an amount of pixels in a period of time
-      this.speed = speed;
-      // Make changes in x and y in a period of time
-      this.dx = 1 * this.speed;
-    }
-  
-    // Create a function that renders the boxes
-    draw(context) {
-      // Begin drawing
-      context.beginPath();
-  
-      // Manipulate some texts in the boxes
-      context.strokeStyle = this.color
-      context.textAlign = "center"
-      context.textBaseline = "middle"
-      context.font = "20px Arial"
-      context.fillText(this.text, this.xpos, this.ypos)
-      // context.strokeText(this.text, this.xpos, this.ypos)
-      // Should put .fillText or .strokeText in the end
-  
-      // Manipulate the style of the boxes
-      context.lineWidth = "1"
-      //context.strokeStyle = "grey";
-      context.fillText('grey');
-      context.fillRect(canvasWidth + 10, this.ypos, this.width, this.height)
-      context.stroke();
-  
-      // End up drawing
-      context.closePath();
-    }
-  
-    // Create a function that changes the poisition of circle(s)
-    updatePosition() {
-      // Clean the old ones, the syntax must go in the beginning
-      context.clearRect(0, 0, canvasWidth, canvasHeight)
-  
-      // Prevent the circle(s) get out of the frame
-      if(this.xpos < canvasWidth) {
-        this.dx -= this.speed;
-      }
-  
-      // Draw a new box
-      this.draw(context);
-      this.xpos += this.dx;
-    }
+    let newBox = new Box(randomBoxX, randomBoxY, boxWidth, boxHeight);
+    currentGame.boxes.push(newBox);
+    newBox.drawBox(context);
+    // console.log(currentGame.boxes);  
   }
 
-let randomY = Math.random() * canvasHeight;
 
-// constructor(xpos, ypos, width, height, color, text, speed)
-let myBox = new Box(canvasWidth, randomY, 50, 50, "black", "Hello", 1);
-myBox.draw(context);
+  /* ---- 4. If the collision ---- */
+  // for(let i = 0; i < currentGame.boxes.length; i++) {
+  //   currentGame.boxes[i].x -= 1;
+  //   currentGame.boxes[i].drawBox();
 
-let generateBox = (box) => box.draw(context);
+  //   if (detectNoCollision(currentGame.boxes[i])) {
+  //       alert('BOOOOOMM!')
+  //       boxesFrequency = 0;
+  //       // currentGame.score = 0;
+  //       // document.getElementById('score').innerHTML = 0;
+  //       currentGame.boxes = [];
+  //       // document.getElementById('game-board').style.display = 'none';
+  //   }
 
-let updateBox = () => {
-  requestAnimationFrame(generateBox);
-  myBox.updatePosition();
+  //   // Obstacle moved outside the canvas
+  //   if (currentGame.boxes.length > 0) {
+  //       currentGame.boxes.splice(i, 1);
+  //       // currentGame.score++;
+  //       // document.getElementById('score').innerHTML = currentGame.score;
+  //   }
+  // }
+
+  requestAnimationFrame(updateCanvas);
 }
-
-updateBox();
-*/

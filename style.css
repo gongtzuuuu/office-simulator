@@ -1,7 +1,12 @@
 * {
-    border: 1px solid grey;
+    font-family: 'Kanit', sans-serif;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+h1 {
+    margin: 2rem;
+    font-size: 4rem;
 }
 
 html, body { 
@@ -10,33 +15,35 @@ html, body {
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #eee;
     width: 100vw;
     height: 100vh;
-}
-
-#start {
-    width: 80vw;
-    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #eee;   
+}
+
+section {
+    width: 80vw;
+    height: 80vh;
+    position: relative;
+    display: none;
     background-color: white;
+    border: 1px solid grey;
     border-radius: 20px;
+}
+
+#start, #result {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #startBtn {
     background-color: #eee;
     bottom: 100px;
     padding: 10px;
+    border: 1px solid grey;
     border-radius: 5px;
     cursor: pointer;
-}
-
-canvas {
-    background-color: white;
-    border-radius: 20px;
 }

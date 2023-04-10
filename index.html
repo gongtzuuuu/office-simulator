@@ -7,12 +7,21 @@
     <title>Office Simulator</title>
 
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 </head>
 <body>
     <section id="start">
+        <h1>Office Simulator</h1>
         <button id="startBtn">LET'S WORK!</button>
     </section>
-    <canvas id="canvas"></canvas>
+    <section id="game">
+        <canvas id="canvas"></canvas>
+    </section>
+    <section id="result">
+        <h1>Game Over!</h1>
+        <article>Your boss is mad at you :(</article>
+        <button id="restartBtn">WORK AGAIN!</button>
+    </section>
     <script src="index.js"></script>
     <script src="Player.js"></script>
     <script src="Box.js"></script>

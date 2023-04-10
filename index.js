@@ -1,45 +1,100 @@
-let currentGame;
-let currentPlayer;
-//let firstBox = {x: 100, y: 100, width: 50, 50};
+window.addEventListener('load', () => {
 
-const startPage = document.getElementById("start");
-const canvas = document.getElementById("canvas");
-const context = canvas.getContext("2d");
-canvas.style.display = 'none';
+  let currentGame;
+  let currentPlayer;
 
-let canvasWidth = window.innerWidth * 0.8;
-let canvasHeight = window.innerHeight * 0.8;
+  const canvas = document.querySelector("#canvas");
+  const context = canvas.getContext("2d");
 
-canvas.width = canvasWidth;
-canvas.height = canvasHeight;
+  let canvasWidth = window.innerWidth * 0.8;
+  let canvasHeight = window.innerHeight * 0.8;
 
-document.getElementById('startBtn').onclick = () => startGame();
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
 
-document.onkeydown = (event) => {
-  let whereToGo = event.keyCode;
-  currentGame.player.movePlayer(whereToGo);
-}
+  const startPage = document.querySelector("#start");
+  const startBtn = document.querySelector('#startBtn');
 
-document.onkeypress = (event) => {
-  let whereToGo = event.keyCode;
-  currentGame.player.movePlayer(whereToGo);
-}
+  const gamePage = document.querySelector('#game');
+
+  const resultPage = document.querySelector("#result");
+  const restartBtn = document.querySelector('#restartBtn');
+
+  startPage.style.display = 'flex';
+
+  let isPlayerGoUp = false;
+  let isPlayerGoDown = false;
+ 
+  let gameover = false;
+  let animateId;
+
+  let boxesFrequency = 0;
+  let boxesArray = [];
+  let boxesStillInScreen = [];
+  let randomBoxY = Math.floor(Math.random() * (canvasHeight - 50) + 50);
+
+  /* ---- Start a game ---- */
+  const startGame = () => {
+    // Switch screen display
+    startPage.style.display = 'none';
+    gamePage.style.display = 'flex';
+    
+    // Instantiate a new game
+    currentGame = new Game;
+    drawPlayer();
+  }
+
+  /* ---- Draw a player ---- */
+  const drawPlayer = () => {
+    // Instantiate a new player
+    currentPlayer = new Player;
+    currentGame.player = currentPlayer;
+    currentGame.player.drawPlayer();
+  }
+
+  startBtn.addEventListener('click', () => startGame())
+
+  /* ---- Update the canvas ---- */
+  const updateCanvas = () => {
+
+    boxesFrequency ++;
+
+    if (boxesFrequency % 200 === 1) boxesArray.push(new Box(randomBoxY));
+    // console.log(currentGame.boxes);
+
+    requestAnimationFrame(updateCanvas);
+  }
+
+  /* ---- When collision happens ---- */
+  boxesStillInScreen.forEach((eachBox) => {
+    if (eachBox.checkCollicion) {
+      gameover = true;
+      alert("Collision detected!");
+    }
+  })
+  
+
+  /* ---- Update the status of player's move ---- */ 
+  document.addEventListener('keydown', event => {
+    if(currentGame.player.movePlayer(event.key) === "ArrowUp") isPlayerGoUp = true;
+    if(currentGame.player.movePlayer(event.key) === "ArrowDown") isPlayerGoDown = true;
+  })
+
+  document.addEventListener('keypress', event => {
+    if(currentGame.player.movePlayer(event.key) === "ArrowUp") isPlayerGoUp = true;
+    if(currentGame.player.movePlayer(event.key) === "ArrowDown") isPlayerGoDown = true;
+  })
+
+  document.addEventListener('keyup', event => {
+    if(currentGame.player.movePlayer(event.key) === "ArrowUp") isPlayerGoUp = false;
+    if(currentGame.player.movePlayer(event.key) === "ArrowDown") isPlayerGoDown = false;
+  })
+  //console.log(isPlayerGoUp, isPlayerGoDown)
 
 
-/* ---- 1. Initiate a game ---- */
-function startGame() {
-  startPage.style.display = 'none';
-  canvas.style.display = 'flex';
+})
 
-  // Instantiate a new game of the game class
-  currentGame = new Game;
-  // Instantiate a new player
-  currentPlayer = new Player;
-  currentGame.player = currentPlayer;
-  currentGame.player.drawPlayer();
-  // Update canvas
-  updateCanvas(); 
-}
+  
 
 
 /* ---- 2. No collision happens ---- */
@@ -53,49 +108,24 @@ function startGame() {
 // }
 
 
-/* ---- 3. Update the canvas ---- */
-let boxesFrequency = 0;
-function updateCanvas() {
+/* ---- 4. If the collision ---- */
+// for(let i = 0; i < currentGame.boxes.length; i++) {
+//   currentGame.boxes[i].x -= 1;
+//   currentGame.boxes[i].drawBox();
 
-  context.clearRect(0, 0, canvasWidth, canvasHeight);
-  currentGame.player.drawPlayer();
-  
-  boxesFrequency ++;
-  if (boxesFrequency % 200 === 1) {
-    //Draw an box
-    let randomBoxX = canvasWidth - 100;
-    let randomBoxY = Math.floor(Math.random() * canvasHeight) - 50;
-    let boxWidth = 50;
-    let boxHeight = 50;
-    
-    let newBox = new Box(randomBoxX, randomBoxY, boxWidth, boxHeight);
-    currentGame.boxes.push(newBox);
-    newBox.drawBox(context);
-    // console.log(currentGame.boxes);  
-  }
+//   if (detectNoCollision(currentGame.boxes[i])) {
+//       alert('BOOOOOMM!')
+//       boxesFrequency = 0;
+//       // currentGame.score = 0;
+//       // document.getElementById('score').innerHTML = 0;
+//       currentGame.boxes = [];
+//       // document.getElementById('game-board').style.display = 'none';
+//   }
 
-
-  /* ---- 4. If the collision ---- */
-  // for(let i = 0; i < currentGame.boxes.length; i++) {
-  //   currentGame.boxes[i].x -= 1;
-  //   currentGame.boxes[i].drawBox();
-
-  //   if (detectNoCollision(currentGame.boxes[i])) {
-  //       alert('BOOOOOMM!')
-  //       boxesFrequency = 0;
-  //       // currentGame.score = 0;
-  //       // document.getElementById('score').innerHTML = 0;
-  //       currentGame.boxes = [];
-  //       // document.getElementById('game-board').style.display = 'none';
-  //   }
-
-  //   // Obstacle moved outside the canvas
-  //   if (currentGame.boxes.length > 0) {
-  //       currentGame.boxes.splice(i, 1);
-  //       // currentGame.score++;
-  //       // document.getElementById('score').innerHTML = currentGame.score;
-  //   }
-  // }
-
-  requestAnimationFrame(updateCanvas);
-}
+//   // Obstacle moved outside the canvas
+//   if (currentGame.boxes.length > 0) {
+//       currentGame.boxes.splice(i, 1);
+//       // currentGame.score++;
+//       // document.getElementById('score').innerHTML = currentGame.score;
+//   }
+// }

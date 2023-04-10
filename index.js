@@ -31,7 +31,7 @@ window.addEventListener('load', () => {
   let boxesFrequency = 0;
   let boxesArray = [];
   let boxesStillInScreen = [];
-  let randomBoxY = Math.floor(Math.random() * (canvasHeight - 50) + 50);
+  
 
   /* ---- Start a game ---- */
   const startGame = () => {
@@ -45,33 +45,49 @@ window.addEventListener('load', () => {
   }
 
   /* ---- Draw a player ---- */
-  const drawPlayer = () => {
+  function drawPlayer() {
     // Instantiate a new player
-    currentPlayer = new Player;
+    let playerY = canvasHeight / 2 - 25;
+    currentPlayer = new Player(50, playerY, 50, 50);
     currentGame.player = currentPlayer;
-    currentGame.player.drawPlayer();
+    currentGame.player.drawPlayer(context);
   }
 
-  startBtn.addEventListener('click', () => startGame())
+  startBtn.addEventListener('click', startGame)
 
   /* ---- Update the canvas ---- */
   const updateCanvas = () => {
+    let boxX = canvasWidth - 50;
+    let boxY = Math.floor(Math.random() * (canvasHeight - 50) + 50);
+
 
     boxesFrequency ++;
 
-    if (boxesFrequency % 200 === 1) boxesArray.push(new Box(randomBoxY));
+    if (boxesFrequency % 200 === 1) boxesArray.push(new Box(boxX, boxY, 50, 50));
+    // xpos, ypos, width, height
     // console.log(currentGame.boxes);
 
     requestAnimationFrame(updateCanvas);
   }
 
   /* ---- When collision happens ---- */
+  function checkCollision(box, currentPlayer) {
+    return ((box.xpos - currentPlayer.xpos > 50 && currentPlayer.ypos - box.ypos > 50) ||
+    (currentPlayer.ypos + currentPlayer.height < box.ypos) ||
+    (currentPlayer.ypos - currentPlayer.height  > box.ypos + box.height))
+  }
+
   boxesStillInScreen.forEach((eachBox) => {
-    if (eachBox.checkCollicion) {
-      gameover = true;
+    if (checkCollision(eachBox, currentPlayer)) {
       alert("Collision detected!");
+      gameover = true;
+      startPage.style.display = 'none';
+      gamePage.style.display = 'none';
+      resultPage.style.display = "flex"
     }
   })
+
+  restartBtn.addEventListener('click', startGame)
   
 
   /* ---- Update the status of player's move ---- */ 
@@ -93,39 +109,3 @@ window.addEventListener('load', () => {
 
 
 })
-
-  
-
-
-/* ---- 2. No collision happens ---- */
-// function detectNoCollision(box) {
-//   return (box.x - currentPlayer.x > 50 && currentPlayer.y - box.y > 50) ||
-//   (box.x - currentPlayer.x > 50 && box.y - currentPlayer.y > 50)
-
-//   /* return !((currentPlayer.x > box.x + box.width) || 
-//   (currentPlayer.y + currentPlayer.height < box.y) || 
-//   (currentPlayer.y - currentPlayer.height  > box.y + box.height)) */
-// }
-
-
-/* ---- 4. If the collision ---- */
-// for(let i = 0; i < currentGame.boxes.length; i++) {
-//   currentGame.boxes[i].x -= 1;
-//   currentGame.boxes[i].drawBox();
-
-//   if (detectNoCollision(currentGame.boxes[i])) {
-//       alert('BOOOOOMM!')
-//       boxesFrequency = 0;
-//       // currentGame.score = 0;
-//       // document.getElementById('score').innerHTML = 0;
-//       currentGame.boxes = [];
-//       // document.getElementById('game-board').style.display = 'none';
-//   }
-
-//   // Obstacle moved outside the canvas
-//   if (currentGame.boxes.length > 0) {
-//       currentGame.boxes.splice(i, 1);
-//       // currentGame.score++;
-//       // document.getElementById('score').innerHTML = currentGame.score;
-//   }
-// }

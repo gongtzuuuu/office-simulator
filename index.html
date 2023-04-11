@@ -12,18 +12,25 @@
 <body>
     <section id="start">
         <h1>Office Simulator</h1>
+        <article>Your KPI: earn 16 dollars!</article>
         <button id="startBtn">LET'S WORK!</button>
     </section>
     <section id="game">
         <canvas id="canvas"></canvas>
     </section>
     <section id="result">
-        <h1>Game Over!</h1>
-        <article>Your boss is mad at you :(</article>
+        <h1>Game Over</h1>
+        <article>Oops! Your boss is mad at you :(</article>
         <button id="restartBtn">WORK AGAIN!</button>
     </section>
+    <section id="win">
+        <h1>You Won!</h1>
+        <article>You are the employee of the year :)</article>
+        <button id="award">AWARD</button>
+    </section>
+    <footer>Company revenue: <span id="score">0</span> dollar(s)</footer>
     <script src="index.js"></script>
-    <script src="collision.js"></script>
+    <script src="Game.js"></script>
     <script src="Box.js"></script>
     <script src="Player.js"></script>
 </body>

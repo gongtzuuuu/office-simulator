@@ -33,17 +33,23 @@ section {
     border-radius: 20px;
 }
 
-#start, #result {
+#start, #result, #win {
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#startBtn {
-    background-color: #eee;
-    bottom: 100px;
+button {
+    margin: 2rem;
     padding: 10px;
+    background-color: #eee;
     border: 1px solid grey;
     border-radius: 5px;
     cursor: pointer;
+}
+
+footer {
+    display: none;
+    position: absolute;
+    bottom: 20px;
 }

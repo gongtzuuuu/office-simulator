@@ -24,27 +24,12 @@ window.addEventListener('load', () => {
   let playerImg = new Image();
   playerImg.src = "./source/player.png"
 
-  let workImg = new Image();
-  workImg.src = "./source/work.png"
-
-   let sleepImg = new Image();
-  sleepImg.src = "./source/sleep.png"
-
-  /*let playerImg = new Image();
-  playerImg.src = "./source/player.png"
-
-  let playerImg = new Image();
-  playerImg.src = "./source/player.png"
-
-  let playerImg = new Image();
-  playerImg.src = "./source/player.png" */
 
   const resultPage = document.querySelector("#result");
   const restartBtn = document.querySelector('#restartBtn');
 
   const winPage = document.querySelector("#win");
   const awardBtn = document.querySelector('#award');
-
 
   startPage.style.display = 'flex';
 
@@ -62,7 +47,7 @@ window.addEventListener('load', () => {
     gamePage.style.display = 'flex';
     footer.style.display = 'block';
     resultPage.style.display = 'none';
-    let animateId = undefined;
+    animateId = 1;
     
     // Instantiate a new game
     currentGame = new Game();
@@ -90,45 +75,40 @@ window.addEventListener('load', () => {
 
   startBtn.addEventListener('click', startGame)
   restartBtn.addEventListener('click', () => {
-    gameover = false;
+    window.location.reload();
+    /*gameover = false;
     scoreValue = 0
-    startGame();
+    startGame();*/
   });
     
 
   /* ---- Make random box ---- */
-  function createBoxes(correct) {
+  function createBoxes(correct, text) {
     let currentBox;
     let boxX = canvasWidth - 50
     let boxY = Math.floor((Math.random()) * (canvasHeight - 100)) + 50;
     
-    currentBox = new Box(boxX, boxY, 100, 50, 20, correct)
+    currentBox = new Box(boxX, boxY, 100, 50, 20, correct, text)
     currentGame.boxes.push(currentBox);
-    
   }
 
 
   /* ---- Update the canvas ---- */
   const updateCanvas = () => {
-    //console.log(animateId)
     //Change player's position by press ArrowUp and ArrowDown
     if (isMovingUp) currentPlayer.movePlayer(context, "ArrowUp", canvasHeight)
     if (isMovingDown) currentPlayer.movePlayer(context, "ArrowDown", canvasHeight)
     currentPlayer.drawPlayer(context);
     
-    //let rightBoxesArr = [91, 151, 231, 361, 501, 641, 781, 801, 931, 1041]; 
 
     //Change boxes position by time
-
     if (animateId % 15 === 1) {
-
       // If answer correct
       currentGame.boxes.forEach(box => {
         box.moveBox(context);
         box.drawBox(context);
         checkGameStatus(box, currentPlayer);
         //checkCollision(box, currentPlayer);
-        //console.log("correct")
         if (box.x < - 100) currentGame.boxes.shift();
       }) 
     } 
@@ -137,29 +117,42 @@ window.addEventListener('load', () => {
     // Update the score
     score.innerHTML = scoreValue;
     
+    // Create right and wrong boxes here depends on the correct status
     if (animateId % 200 === 0) {
-      if (animateId === 200 || 
-        animateId === 400 || 
+      if (animateId === 400 || 
+        animateId === 1800 || 
+        animateId === 2600 || 
+        animateId === 3200 ||
+        animateId === 4600 ||
+        animateId === 5800) {
+          createBoxes(true, "workHard()");
+      } else if (animateId === 200 || 
+        animateId === 2000 || 
+        animateId === 2400 || 
+        animateId === 3800 ||
+        animateId === 4400 ||
+        animateId === 6000) {
+          createBoxes(false, "playGame()");
+      } else if (animateId === 600 || 
         animateId === 1200 || 
-        animateId === 1400 ||
-        animateId === 1800 ||
-        animateId === 2000 ||
-        animateId === 2600 ||
-        animateId === 3000) {
-        createBoxes(true);
-      } else {
-        createBoxes(false);
-      }
+        animateId === 2800 || 
+        animateId === 3600 ||
+        animateId === 5000 ||
+        animateId === 5600) {
+          createBoxes(false, "gossip(boss)");
+        } else {
+          createBoxes(false, "takeNap()");
+        }
     }
 
-    if (animateId === 5200) {
+    // Add time limit of the game
+    if (animateId === 6001) {
         gameover = true;
         alert(`Time's up!`)
         gamePage.style.display = 'none';
         footer.style.display = 'none';
         resultPage.style.display = "flex"
     }
-    
 
     // Check if game over
     if (gameover) {

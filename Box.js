@@ -1,32 +1,66 @@
 class Box {
-    constructor(x, y, width, height, speed, correct) {
+    constructor(x, y, width, height, speed, correct, text) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.speed = speed;
         this.correct = correct;
-        //this.text = text;
+        this.text = text;
     }
 
     drawCorrectBox(context){
-        context.fillStyle = "#E4BABB"
+        context.beginPath();
+
+        context.lineWidth = 2;
+        context.strokeStyle = "black";
+        context.fillStyle = "#E4BABB";
+        context.fillRect(this.x, this.y, this.width, this.height);
+
+        context.fillStyle = "black";
+        context.textAlign = "center"; 
+        context.textBaseline = "middle";
+        context.font = "16px Georgia";
+        context.fillText(this.text ,this.x+(this.width/2), this.y+(this.height/2));
+
+        // roundRect(ctx, x, y, width, height, radius, fill, stroke)
+        // context.roundRect(10, 10, 100, 50, 10);
+        
+        context.closePath(); 
+        
+        //Original code below
+        //context.fillStyle = "#E4BABB"
         //context.textAlign = "center"
         //context.textBaseline = "middle"
         //context.font = "20px Arial"
         //context.fillText(this.text, this.x, this.y)
         // context.strokeStyle = "#8C271E 1px solid";
-        context.fillRect(this.x, this.y, this.width, this.height);
+        //context.fillRect(this.x, this.y, this.width, this.height);
     }
 
     drawWrongBox(context){
-        context.fillStyle = "#eee"
+        context.beginPath();
+
+        context.lineWidth = 2;
+        context.strokeStyle = "black";
+        context.fillStyle = "#eee";
+        context.fillRect(this.x, this.y, this.width, this.height);
+
+        context.fillStyle = "black";
+        context.textAlign="center"; 
+        context.textBaseline = "middle";
+        context.font="16px Georgia";
+        context.fillText(this.text ,this.x+(this.width/2), this.y+(this.height/2));
+
+        context.closePath(); 
+        
+        //context.fillStyle = "#eee"
         //context.textAlign = "center"
         //context.textBaseline = "middle"
         //context.font = "20px Arial"
         //context.fillText(this.text, this.x, this.y)
         //context.strokeStyle = "#8C271E 1px solid";
-        context.fillRect(this.x, this.y, this.width, this.height);
+        //context.fillRect(this.x, this.y, this.width, this.height);
     }
   
     moveBox(context) {

@@ -120,7 +120,7 @@ window.addEventListener('load', () => {
 
     //Change boxes position by time
 
-    if (animateId % 20 === 1) {
+    if (animateId % 15 === 1) {
 
       // If answer correct
       currentGame.boxes.forEach(box => {
@@ -152,7 +152,7 @@ window.addEventListener('load', () => {
       }
     }
 
-    if (animateId === 3200) {
+    if (animateId === 5200) {
         gameover = true;
         alert(`Time's up!`)
         gamePage.style.display = 'none';

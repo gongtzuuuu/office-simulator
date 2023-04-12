@@ -20,7 +20,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #eee;   
+    background-image: url(./source/bg.jpg);
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: cover;
+    /*background-color: #eee;*/
 }
 
 section {
@@ -28,7 +32,7 @@ section {
     height: 80vh;
     position: relative;
     display: none;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid grey;
     border-radius: 20px;
 }
@@ -52,4 +56,9 @@ footer {
     display: none;
     position: absolute;
     bottom: 20px;
+    color: #eee;
+}
+
+.red {
+    color: #E71D36;
 }

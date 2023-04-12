@@ -83,12 +83,12 @@ window.addEventListener('load', () => {
     
 
   /* ---- Make random box ---- */
-  function createBoxes(correct, text) {
+  function createBoxes(correct, text = "takeNap()") {
     let currentBox;
     let boxX = canvasWidth - 50
     let boxY = Math.floor((Math.random()) * (canvasHeight - 100)) + 50;
     
-    currentBox = new Box(boxX, boxY, 100, 50, 20, correct, text)
+    currentBox = new Box(boxX, boxY, 120, 50, 20, correct, text)
     currentGame.boxes.push(currentBox);
   }
 
@@ -109,7 +109,7 @@ window.addEventListener('load', () => {
         box.drawBox(context);
         checkGameStatus(box, currentPlayer);
         //checkCollision(box, currentPlayer);
-        if (box.x < - 100) currentGame.boxes.shift();
+        if (box.x < - 120) currentGame.boxes.shift();
       }) 
     } 
 

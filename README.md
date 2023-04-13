@@ -2,7 +2,12 @@
 
 
 ## Description
-In the office simulator, your goal is to help the company to earn 15 dollars in one minute. The player can control the character by pressing the key up and down. Try to work as hard as you can!
+In the office simulator, your goal is to help the company to earn 15 dollars in one minute. 
+The player can control the character by pressing the key up and down. 
+Try to work as hard as you can!
+
+[Click here to play the game](https://gongtzuuuu.github.io/office-simulator)
+
 
 
 ## MVP
@@ -11,6 +16,7 @@ In the office simulator, your goal is to help the company to earn 15 dollars in 
 - several random answer boxes moving from right to left
 - the score increases every time the player touches the correct answer boxes
 - the game will be over when the player gets 15 points or hits the wrong answer boxes
+
 
 
 ## Data Structure

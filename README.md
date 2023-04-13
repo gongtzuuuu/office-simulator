@@ -4,7 +4,7 @@
 ## Description
 In the office simulator, your goal is to help the company to earn 15 dollars in one minute. 
 The player can control the character by pressing the key up and down. 
-Try to work as hard as you can!
+Try to work as hard as you can! :laughing:
 
 [Click here to play the game](https://gongtzuuuu.github.io/office-simulator)
 
@@ -27,3 +27,9 @@ Try to work as hard as you can!
 - Game.js
 - Player.js
 - Box.js
+
+
+## Credit
+- pictures: [Unsplash](https://unsplash.com/)
+- icon: [FreePNGimg](https://freepngimg.com/)
+- music: [pixabay](https://pixabay.com/)

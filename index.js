@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
   const canvas = document.querySelector("#canvas");
   const context = canvas.getContext("2d");
 
-  let canvasWidth = window.innerWidth * 0.6;
+  let canvasWidth = window.innerWidth * 0.8;
   let canvasHeight = window.innerHeight * 0.8;
 
   canvas.width = canvasWidth;
@@ -49,7 +49,7 @@ window.addEventListener('load', () => {
   const startGame = () => {
     context.clearRect(0, 0, canvasWidth, canvasHeight)
 
-    bgSound.play()
+    bgSound.play();
 
     // Switch screen display
     startPage.style.display = 'none';
@@ -93,7 +93,7 @@ window.addEventListener('load', () => {
   /* ---- Make random box ---- */
   function createBoxes(correct, text = "takeNap()") {
     let currentBox;
-    let boxX = canvasWidth - 70
+    let boxX = canvasWidth - 50
     let boxY = Math.floor((Math.random()) * (canvasHeight - 100)) + 50;
     
     currentBox = new Box(boxX, boxY, 120, 50, 20, correct, text)
@@ -157,6 +157,8 @@ window.addEventListener('load', () => {
     // Add time limit of the game
     if (animateId === 6001) {
         gameover = true;
+        bgSound.pause();
+        bgSound.currentTime = 0;
         loseSound.play();
         alert(`Time's up!`)
         gamePage.style.display = 'none';
@@ -191,6 +193,8 @@ window.addEventListener('load', () => {
         scoreValue += 1;
         if (scoreValue === 15) {
           gameover = true;
+          bgSound.pause();
+          bgSound.currentTime = 0;
           winSound.play();
           gamePage.style.display = 'none';
           footer.style.display = 'none';
@@ -200,6 +204,8 @@ window.addEventListener('load', () => {
     } else {
       if (Math.abs(box.x - currentPlayer.x) < 50 && Math.abs(box.y - currentPlayer.y) < 50) {
         gameover = true;
+        bgSound.pause();
+        bgSound.currentTime = 0;
         loseSound.play();
         alert("Busted!")
         gamePage.style.display = 'none';
